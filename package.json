@@ -1,0 +1,43 @@
+{
+  "name": "meal-search",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "apollo-boost": "^0.4.4",
+    "eslint": "5.6.0",
+    "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
+    "react": "^16.10.2",
+    "react-apollo": "^3.1.3",
+    "react-dom": "^16.10.2",
+    "react-scripts": "2.1.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "description": "This is a simple React JS application that illustrates how to perform a search. In this application, I query one of the [themealdb.com](https://www.themealdb.com/) APIs that returns an array of meals which we display.",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prashantramnani/KMSTProject.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prashantramnani/KMSTProject/issues"
+  },
+  "homepage": "https://github.com/prashantramnani/KMSTProject#readme"
+}
