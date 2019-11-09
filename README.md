@@ -1,6 +1,6 @@
 # Tourism App (Semantic Web)
 
-This is a simple React JS application that illustrates how to perform a search. In this application, I query one of the [themealdb.com](https://www.themealdb.com/) APIs that returns an array of meals which we display.
+This is a simple React JS application that illustrates how to perform a search. In this application, I query one of the DBPedia APIs that returns an array of objects which we display.
 
 ## Demo of the application
 
