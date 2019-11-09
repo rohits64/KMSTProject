@@ -25,11 +25,11 @@ class Search extends Component {
       .then(jsonData => {
          this.setState({ cuisines: jsonData.results.bindings });
          delete this.state.meals;
-        console.log(this.state)
+        console.log(this.state);
       });
   };
 
-  render() {
+  render(){
     return (
       <div id="main">
         <h1>Welcome</h1>
