@@ -34,12 +34,15 @@ class Search extends Component {
           this.state.places ? (delete this.state.places) : console.log("meals deleted");
          this.setState({ cuisines: jsonData.meals });
          delete this.state.meals;
+ created_radio_button
         }
         else {
           this.state.cuisines ? (delete this.state.cuisines) : console.log("places deleted");
           this.setState({ places: jsonData.results.bindings });
           delete this.state.meals;
         }
+
+ master
         console.log(this.state);
       });
   };
