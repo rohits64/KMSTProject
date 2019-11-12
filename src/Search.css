@@ -31,6 +31,7 @@ button {
   cursor: pointer;
   font-size: 18px;
 }
+
 #cuisine-container {
   display: grid;
   grid-template-columns: auto auto auto;
