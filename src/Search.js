@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import "./Search.css";
+import Map from "./Map.js";
 
 var stringSimilarity = require('string-similarity');
 var bestmatch;
 var bestmatch_cuisine;
+var glat,glong;
+var url;
 
 function score_strings(a, b){
   a = a.trim();
@@ -138,7 +141,7 @@ class Search extends Component {
     this.makeApiCall("tour", bestmatch);
   };
   find_required_string = (searchInput) =>{
-    var tourist_location_array = `https://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=PREFIX+dbo%3A+%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2F%3E%0D%0APREFIX+dbp%3A+%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2F%3E%0D%0APREFIX+foaf%3A+%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0D%0A%0D%0ASELECT++DISTINCT+%3Fname+where+%7B%0D%0A+++%0D%0A++++%3Fgamma++skos%3Abroader++dbc%3ATourist_attractions_in_India+.%0D%0A+++%3Fdelta++dct%3Asubject+%3Fgamma++.%0D%0A++++%3Fdelta+dbo%3Alocation+%3Ftheta+.%0D%0A++++%3Ftheta+rdfs%3Alabel+%3Fname%0D%0A+++%0D%0AFILTER+%28lang%28%3Fname%29+%3D+%27en%27%29++%0D%0A%0D%0A%7D%0D%0ALIMIT+10000&format=application%2Fsparql-results%2Bjson&CXML_redir_for_subjs=121&CXML_redir_for_hrefs=&timeout=30000&debug=on&run=+Run+Query+`;
+    var tourist_location_array = `https://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=PREFIX+dbo%3A+%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2F%3E%0D%0APREFIX+dbp%3A+%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2F%3E%0D%0APREFIX+foaf%3A+%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0D%0A%0D%0ASELECT++DISTINCT+%3Fname+%3Flat+%3Flong+where+%7B%0D%0A+++%0D%0A++++%3Fgamma++skos%3Abroader++dbc%3ATourist_attractions_in_India+.%0D%0A+++%3Fdelta++dct%3Asubject+%3Fgamma++.%0D%0A++++%3Fdelta+dbo%3Alocation+%3Ftheta+.%0D%0A++++%3Ftheta+rdfs%3Alabel+%3Fname%0D%0A++++OPTIONAL+%7B+%3Ftheta+geo%3Alat+%3Flat+%7D%0D%0A++++OPTIONAL+%7B+%3Ftheta+geo%3Along+%3Flong+%7D%0D%0AFILTER+%28lang%28%3Fname%29+%3D+%27en%27%29++%0D%0A%0D%0A%7D%0D%0ALIMIT+10000&format=application%2Fsparql-results%2Bjson&CXML_redir_for_subjs=121&CXML_redir_for_hrefs=&timeout=30000&debug=on&run=+Run+Query+`;
     var cuisine_array = `https://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=SELECT+%3Fname+++where+%7B%0D%0A++++%3Falpha+skos%3Abroader++dbc%3AIndian_cuisine_by_state_or_territory+.++%0D%0A++++%3Falpha+rdfs%3Alabel+%3Fname+.++%0D%0A%0D%0A%7D&format=application%2Fsparql-results%2Bjson&CXML_redir_for_subjs=121&CXML_redir_for_hrefs=&timeout=30000&debug=on&run=+Run+Query+`;
     // GAwd link hai upar wala, dbpedia sponsored query of ROHITSANJAY!!!!
     fetch(tourist_location_array)
@@ -155,9 +158,19 @@ class Search extends Component {
         }
         var matches = stringSimilarity.findBestMatch(searchInput, tourist_names);
         // matches is an json object
-        // console.log(matches.bestMatch.target);
+        console.log(matches);
         // res = str.replace(/ /g, "_")
         bestmatch = matches.bestMatch.target;
+        if(typeof result_array[matches.bestMatchIndex].lat !== "undefined")
+        {
+          glat = result_array[matches.bestMatchIndex].lat.value;
+          glong = result_array[matches.bestMatchIndex].long.value;
+          url = "https://maps.google.com/?q=" + glat + "," + glong;
+        }
+        else
+        {
+          url = undefined;
+        }
       });
     fetch(cuisine_array)
       .then(response =>{
@@ -179,7 +192,6 @@ class Search extends Component {
         // console.log('Cuisine', bestmatch_cuisine)
       });
   };
-
   makeApiCall = (type, searchInput) => {
     var searchUrl;
     console.log(searchInput);
@@ -216,6 +228,7 @@ class Search extends Component {
           this.setState({ places: arrUnique(jsonData.results.bindings) });
         }
         console.log('State is',this.state);
+        score_strings('pla','nab');
       });
   };
 
@@ -247,6 +260,7 @@ class Search extends Component {
         )}
         {this.state.places ? (
           <div><h2>{bestmatch}</h2>
+          {(url !== undefined) ? (<a href = {url} target="_blank" rel="noopener noreferrer">Show map</a>):(<p></p>)}
           <div id="cuisine-container">
             {this.state.places.map((place, index) => (
               <div className="single-cuisine" key={index}>
@@ -255,6 +269,7 @@ class Search extends Component {
                 {(typeof place.image != "undefined") ? (
                   <img src={place.image.value} alt="place thumbnail not available!" />
                 ): (<img alt="place thumbnail not available!" />)}
+                {(place.lat && place.long) ? (<Map/>):(<p></p>)}
               </div>
             ))}
           </div></div>
