@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Search.css";
-import Map from "./Map.js";
+// import Map from "./Map.js";
 
 var stringSimilarity = require('string-similarity');
 var bestmatch;
@@ -269,7 +269,7 @@ class Search extends Component {
                 {(typeof place.image != "undefined") ? (
                   <img src={place.image.value} alt="place thumbnail not available!" />
                 ): (<img alt="place thumbnail not available!" />)}
-                {(place.lat && place.long) ? (<Map/>):(<p></p>)}
+                {/* {(place.lat && place.long) ? (<Map/>):(<p></p>)} */}
               </div>
             ))}
           </div></div>
