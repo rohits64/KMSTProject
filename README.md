@@ -2,7 +2,7 @@
 
 This project was made as a part of the course Knowledge Modelling and Semantic Technologies.
 
-This is a simple React JS application that illustrates how to perform a search. In this application, I query one of the DBPedia APIs that returns an array of objects which we display.
+An E-Tourguide web app powered by semantic web.
 
 ### Features
 - Various locations inside and outside of India.
@@ -32,3 +32,9 @@ $ cd KMSTProject
 $ npm install
 $ npm start
 ```
+
+## Links
+- Slides: https://docs.google.com/presentation/d/1YqeeA6_uRd9zjd89_YaK0w2SV4VtyWqgMxPF6QC6z7M
+- Live Project: https://calm-waters-88173.herokuapp.com/
+- This repo: https://github.com/rohitsanjay/KMSTProject
+
